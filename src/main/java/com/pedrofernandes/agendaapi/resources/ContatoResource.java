@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Part;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/contatos")
+@CrossOrigin("*")
 public class ContatoResource {
 
     @Autowired
@@ -34,8 +36,14 @@ public class ContatoResource {
         return service.listarTodos();
     }
 
-    @PatchMapping("{id}/favorito")
-    public void favoritar(@PathVariable Integer id, @RequestBody String favorito){
-        service.favoritar(id, Boolean.getBoolean(favorito));
+    @PatchMapping("/{id}/favorito")
+    public void favoritar(@PathVariable Integer id){
+        service.favoritar(id);
+    }
+
+    @PutMapping("/{id}/foto")
+    public byte[] addFoto(@PathVariable Integer id,
+                          @RequestParam("foto")Part arquivo){
+        return service.addFoto(id, arquivo);
     }
 }
