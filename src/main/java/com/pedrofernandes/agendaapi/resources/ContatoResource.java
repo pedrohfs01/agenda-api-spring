@@ -39,7 +39,8 @@ public class ContatoResource {
             @RequestParam(value = "page", defaultValue = "0") Integer pagina,
             @RequestParam(value = "size", defaultValue = "10") Integer tamanhoPagina
     ){
-        PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        Sort sort = Sort.by(Sort.Direction.ASC, "nome");
+        PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina, sort);
         return service.listarTodos(pageRequest);
     }
 
