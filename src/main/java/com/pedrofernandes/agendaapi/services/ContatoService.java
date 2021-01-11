@@ -4,6 +4,8 @@ import com.pedrofernandes.agendaapi.entities.Contato;
 import com.pedrofernandes.agendaapi.repository.ContatoRepository;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Part;
@@ -26,8 +28,8 @@ public class ContatoService {
         repo.deleteById(id);
     }
 
-    public List<Contato> listarTodos(){
-        return repo.findAll();
+    public Page<Contato> listarTodos(PageRequest pageRequest){
+        return repo.findAll(pageRequest);
     }
 
     public void favoritar(Integer id){

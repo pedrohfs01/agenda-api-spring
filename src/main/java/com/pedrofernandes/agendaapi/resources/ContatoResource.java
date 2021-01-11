@@ -4,6 +4,9 @@ import com.pedrofernandes.agendaapi.entities.Contato;
 import com.pedrofernandes.agendaapi.repository.ContatoRepository;
 import com.pedrofernandes.agendaapi.services.ContatoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +35,12 @@ public class ContatoResource {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Contato> listarTodos(){
-        return service.listarTodos();
+    public Page<Contato> listarTodos(
+            @RequestParam(value = "page", defaultValue = "0") Integer pagina,
+            @RequestParam(value = "size", defaultValue = "10") Integer tamanhoPagina
+    ){
+        PageRequest pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        return service.listarTodos(pageRequest);
     }
 
     @PatchMapping("/{id}/favorito")
